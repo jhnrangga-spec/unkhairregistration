@@ -16,11 +16,6 @@ function getSql() {
     return _sql;
 }
 
-async function query(strings: TemplateStringsArray, ...values: unknown[]) {
-    const sql = getSql();
-    return sql(strings, ...values);
-}
-
 let schemaInit: Promise<void> | null = null;
 async function ensureSchema() {
     if (!USE_PG) return;
