@@ -56,6 +56,12 @@ export default function RootLayout({
                 Cek Status
               </Link>
               <Link
+                href="/informasi"
+                className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-unkhair/10 hover:text-unkhair-dark"
+              >
+                Informasi
+              </Link>
+              <Link
                 href="/admin"
                 className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-unkhair/10 hover:text-unkhair-dark"
               >
