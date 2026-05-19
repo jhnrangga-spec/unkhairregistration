@@ -1,19 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs/promises";
 import path from "path";
 import { isAdmin } from "@/lib/auth";
 import { pmb } from "@/lib/db";
+import { mimeFor, readBerkas } from "@/lib/storage";
 
 export const runtime = "nodejs";
-
-const MIME: Record<string, string> = {
-  ".pdf": "application/pdf",
-  ".png": "image/png",
-  ".jpg": "image/jpeg",
-  ".jpeg": "image/jpeg",
-  ".gif": "image/gif",
-  ".webp": "image/webp",
-};
 
 export async function GET(
   _req: NextRequest,
@@ -24,17 +15,21 @@ export async function GET(
 
   const safeId = path.basename(params.id);
   const safeFile = path.basename(params.file);
-  const fp = path.join(pmb.UPLOAD_DIR, safeId, safeFile);
+
+  const p = await pmb.getById(safeId);
+  const meta = p?.berkas.find((b) => b.storedName === safeFile);
+  if (!p || !meta)
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+
   try {
-    const data = await fs.readFile(fp);
-    const ext = path.extname(safeFile).toLowerCase();
+    const data = await readBerkas("pmb", safeId, meta);
     const ab = data.buffer.slice(
       data.byteOffset,
       data.byteOffset + data.byteLength
     ) as ArrayBuffer;
     return new NextResponse(ab, {
       headers: {
-        "Content-Type": MIME[ext] || "application/octet-stream",
+        "Content-Type": meta.mime || mimeFor(safeFile),
         "Content-Disposition": `inline; filename="${safeFile}"`,
       },
     });

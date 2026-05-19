@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
-import fs from "fs/promises";
 import path from "path";
 import JSZip from "jszip";
 import { isAdmin } from "@/lib/auth";
 import { pmb } from "@/lib/db";
+import { readBerkas } from "@/lib/storage";
 
 export const runtime = "nodejs";
+export const maxDuration = 60;
 
 export async function GET() {
   if (!isAdmin())
@@ -36,9 +37,7 @@ export async function GET() {
 
     for (const b of p.berkas) {
       try {
-        const data = await fs.readFile(
-          path.join(pmb.UPLOAD_DIR, p.id, b.storedName)
-        );
+        const data = await readBerkas("pmb", p.id, b);
         const ext = path.extname(b.storedName);
         folder.file(`${b.field}${ext}`, data);
       } catch {

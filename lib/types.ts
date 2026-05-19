@@ -18,6 +18,7 @@ export interface Berkas {
   storedName: string;
   size: number;
   mime: string;
+  blobUrl?: string;
 }
 
 export interface Pendaftar {

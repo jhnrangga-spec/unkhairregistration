@@ -6,7 +6,10 @@ build/
 *.tsbuildinfo
 next-env.d.ts
 .env*.local
+.vercel
 
-# runtime data (uploads & db) - boleh dihapus baris di bawah jika ingin commit
+# runtime data lokal (uploads & db file-based fallback)
 data/uploads/
+data/uploads-pmb/
 data/pendaftar.json
+data/pmb.json

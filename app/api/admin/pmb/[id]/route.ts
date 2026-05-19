@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
 import { isAdmin } from "@/lib/auth";
 import { pmb } from "@/lib/db";
+import { removeBerkasAll } from "@/lib/storage";
 
 export async function PATCH(
   req: NextRequest,
@@ -22,11 +21,9 @@ export async function DELETE(
 ) {
   if (!isAdmin())
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const existing = await pmb.getById(params.id);
   const ok = await pmb.remove(params.id);
   if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
-  await fs.rm(path.join(pmb.UPLOAD_DIR, params.id), {
-    recursive: true,
-    force: true,
-  });
+  if (existing) await removeBerkasAll("pmb", params.id, existing.berkas);
   return NextResponse.json({ ok: true });
 }

@@ -94,9 +94,23 @@ data/                                 # Auto-generated runtime
   pmb.json         uploads-pmb/<id>/...
 ```
 
+## Deploy ke Vercel
+
+Lihat [`DEPLOY-VERCEL.md`](./DEPLOY-VERCEL.md) untuk panduan lengkap.
+
+Singkatnya:
+1. Import repo ke Vercel
+2. Tambah **Postgres (Neon)** dan **Blob Storage** dari tab Storage
+3. Set env var `ADMIN_USER` / `ADMIN_PASS` / `ADMIN_TOKEN`
+4. Deploy
+
+App otomatis mendeteksi env var dan beralih dari file-based ke cloud
+backend tanpa perubahan kode.
+
 ## Catatan
 
-- Data disimpan ke `data/pendaftar.json` (file-based) — cocok untuk demo / kampus skala kecil.
-  Untuk produksi, ganti `lib/db.ts` dengan adapter ke PostgreSQL/MySQL.
-- Berkas upload disimpan ke `data/uploads/<id>/`.
-- Limit ukuran berkas: 2MB per file.
+- **Lokal:** data ke `data/pendaftar.json` + `data/pmb.json`, berkas ke
+  `data/uploads/` + `data/uploads-pmb/`.
+- **Vercel:** data di Postgres (tabel `wisuda` & `pmb`), berkas di Vercel
+  Blob (`wisuda/<id>/...` & `pmb/<id>/...`).
+- Limit ukuran berkas: 2 MB per file.

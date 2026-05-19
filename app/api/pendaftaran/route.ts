@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
 import { randomUUID } from "crypto";
-import { create, nextNomorPendaftaran, UPLOAD_DIR } from "@/lib/db";
+import { create, nextNomorPendaftaran } from "@/lib/db";
+import { saveBerkas } from "@/lib/storage";
 import type { Berkas, Pendaftar } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -55,7 +54,6 @@ export async function POST(req: NextRequest) {
     }
 
     const id = randomUUID();
-    await fs.mkdir(path.join(UPLOAD_DIR, id), { recursive: true });
     const berkas: Berkas[] = [];
 
     for (const field of REQUIRED_FILE_FIELDS) {
@@ -72,17 +70,7 @@ export async function POST(req: NextRequest) {
           { status: 400 }
         );
       }
-      const ext = path.extname(file.name) || "";
-      const storedName = `${field}${ext}`;
-      const buffer = Buffer.from(await file.arrayBuffer());
-      await fs.writeFile(path.join(UPLOAD_DIR, id, storedName), buffer);
-      berkas.push({
-        field,
-        originalName: file.name,
-        storedName,
-        size: file.size,
-        mime: file.type,
-      });
+      berkas.push(await saveBerkas("wisuda", id, field, file));
     }
 
     const nomorPendaftaran = await nextNomorPendaftaran();
