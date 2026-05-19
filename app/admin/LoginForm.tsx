@@ -7,6 +7,7 @@ export default function LoginForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -43,7 +44,22 @@ export default function LoginForm() {
       </div>
       <div>
         <label className="label">Password</label>
-        <input name="password" type="password" required className="input" />
+        <div className="relative">
+          <input
+            name="password"
+            type={showPassword ? "text" : "password"}
+            required
+            className="input pr-20"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((v) => !v)}
+            className="absolute inset-y-0 right-0 flex items-center px-3 text-sm font-medium text-green-700 hover:text-green-800"
+            aria-label={showPassword ? "Sembunyikan password" : "Tampilkan password"}
+          >
+            {showPassword ? "Sembunyikan" : "Lihat"}
+          </button>
+        </div>
       </div>
       <button className="btn-primary w-full" disabled={loading}>
         {loading ? "Memproses..." : "Masuk"}
