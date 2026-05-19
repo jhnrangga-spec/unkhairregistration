@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { readAll } from "@/lib/db";
-import DashboardClient from "./DashboardClient";
+import { pmb } from "@/lib/db";
+import PmbClient from "./PmbClient";
 
-export default async function DashboardWisudaPage() {
-  const list = await readAll();
+export default async function DashboardPmbPage() {
+  const list = await pmb.readAll();
   list.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 
   const stats = {
@@ -16,7 +16,11 @@ export default async function DashboardWisudaPage() {
   return (
     <>
       <div className="grid gap-4 md:grid-cols-4">
-        <Stat label="Total Pendaftar" value={stats.total} color="bg-unkhair" />
+        <Stat
+          label="Total Calon Mhs"
+          value={stats.total}
+          color="bg-unkhair-gold"
+        />
         <Stat label="Menunggu" value={stats.menunggu} color="bg-amber-500" />
         <Stat
           label="Diverifikasi"
@@ -29,23 +33,23 @@ export default async function DashboardWisudaPage() {
       <div className="card">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
           <h2 className="font-serif text-xl font-bold">
-            Ekspor Data Wisuda
+            Ekspor Data Mahasiswa Baru
           </h2>
           <div className="flex flex-wrap gap-2">
             <Link
-              href="/api/admin/export/excel"
+              href="/api/admin/pmb/export/excel"
               className="btn-secondary text-sm"
             >
               ⬇ Excel (.xlsx)
             </Link>
             <Link
-              href="/api/admin/export/pdf"
+              href="/api/admin/pmb/export/pdf"
               className="btn-secondary text-sm"
             >
               ⬇ Laporan PDF
             </Link>
             <Link
-              href="/api/admin/export/berkas-zip"
+              href="/api/admin/pmb/export/berkas-zip"
               className="btn-gold text-sm"
             >
               ⬇ Semua Berkas (ZIP)
@@ -53,12 +57,12 @@ export default async function DashboardWisudaPage() {
           </div>
         </div>
         <p className="text-xs text-slate-500">
-          Excel / PDF berisi seluruh data pendaftar wisuda. ZIP berisi
+          Excel / PDF berisi seluruh data calon mahasiswa baru. ZIP berisi
           berkas yang diunggah, dipisah per pendaftar.
         </p>
       </div>
 
-      <DashboardClient list={list} />
+      <PmbClient list={list} />
     </>
   );
 }

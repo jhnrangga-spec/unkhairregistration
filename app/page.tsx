@@ -3,6 +3,48 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <div className="space-y-12">
+      <section className="grid gap-4 md:grid-cols-2">
+        <Link
+          href="/daftar"
+          className="group relative overflow-hidden rounded-2xl border-2 border-unkhair bg-white p-6 shadow-sm transition hover:shadow-lg"
+        >
+          <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-unkhair/10 transition group-hover:scale-150" />
+          <div className="relative">
+            <span className="badge bg-unkhair text-white">Alumni</span>
+            <h2 className="mt-2 font-serif text-2xl font-bold text-unkhair-dark">
+              Pendaftaran Wisuda 🎓
+            </h2>
+            <p className="mt-1 text-sm text-slate-600">
+              Untuk mahasiswa yang telah lulus dan akan mengikuti prosesi
+              wisuda.
+            </p>
+            <div className="mt-3 text-sm font-semibold text-unkhair">
+              Daftar sekarang →
+            </div>
+          </div>
+        </Link>
+        <Link
+          href="/pmb"
+          className="group relative overflow-hidden rounded-2xl border-2 border-unkhair-gold bg-white p-6 shadow-sm transition hover:shadow-lg"
+        >
+          <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-unkhair-gold/10 transition group-hover:scale-150" />
+          <div className="relative">
+            <span className="badge bg-unkhair-gold text-white">
+              Calon Mahasiswa
+            </span>
+            <h2 className="mt-2 font-serif text-2xl font-bold text-unkhair-dark">
+              Pendaftaran Mahasiswa Baru 📚
+            </h2>
+            <p className="mt-1 text-sm text-slate-600">
+              SNBP, SNBT, dan Mandiri — Tahun Akademik 2026/2027.
+            </p>
+            <div className="mt-3 text-sm font-semibold text-unkhair-gold">
+              Daftar sekarang →
+            </div>
+          </div>
+        </Link>
+      </section>
+
       <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-unkhair-dark via-unkhair to-unkhair-light p-8 text-white shadow-lg md:p-12">
         <div className="absolute -right-10 -top-10 h-56 w-56 rounded-full bg-unkhair-gold/30 blur-2xl" />
         <div className="relative max-w-3xl">

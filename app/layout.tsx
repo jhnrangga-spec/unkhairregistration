@@ -38,6 +38,12 @@ export default function RootLayout({
                 Beranda
               </Link>
               <Link
+                href="/pmb"
+                className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-unkhair/10 hover:text-unkhair-dark"
+              >
+                Mahasiswa Baru
+              </Link>
+              <Link
                 href="/daftar"
                 className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-unkhair/10 hover:text-unkhair-dark"
               >
